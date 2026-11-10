@@ -1,0 +1,18 @@
+<!-- project é a raiz do XML; xmlns identifica o formato de POM do Maven. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <!-- Versão do formato do POM. Não é a versão do Maven instalado. -->
+  <modelVersion>4.0.0</modelVersion>
+  <!-- Identifica o grupo da instituição/projeto nas coordenadas Maven. -->
+  <groupId>br.edu.soa</groupId>
+  <!-- Nome do projeto agregador: organiza a execução do laboratório. -->
+  <artifactId>laboratorio-restaurante</artifactId>
+  <!-- Versão adotada para os artefatos do restaurante neste material. -->
+  <version>2.0.0</version>
+  <!-- Este projeto organiza/configura outros projetos; não produz JAR ou WAR. -->
+  <packaging>pom</packaging>
+  <!-- Lista os projetos incluídos no build; o caminho parte deste POM. -->
+  <modules>
+    <module>source/restaurante-soap</module>
+  </modules>
+</project>
+

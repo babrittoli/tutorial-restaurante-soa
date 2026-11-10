@@ -1,0 +1,108 @@
+<!-- project é a raiz do XML; xmlns identifica o formato de POM do Maven. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <!-- Versão do formato do POM. Não é a versão do Maven instalado. -->
+  <modelVersion>4.0.0</modelVersion>
+  <!-- Identifica o grupo da instituição/projeto nas coordenadas Maven. -->
+  <groupId>br.edu.soa</groupId>
+  <!-- Nome do POM pai que os futuros módulos SOAP vão herdar. -->
+  <artifactId>restaurante-soap</artifactId>
+  <!-- Versão adotada para os artefatos do restaurante neste material. -->
+  <version>2.0.0</version>
+  <!-- Este projeto organiza/configura outros projetos; não produz JAR ou WAR. -->
+  <packaging>pom</packaging>
+  <!-- Fica vazio agora. Adicionaremos dominio e os demais módulos nas respectivas aulas. -->
+  <modules>
+
+  </modules>
+  <!-- Valores reutilizáveis. A escrita ${nome} consulta uma propriedade. -->
+  <properties>
+    <!-- Compila fontes e APIs para Java 17. Não instala nem seleciona o JDK. -->
+    <maven.compiler.release>17</maven.compiler.release>
+    <!-- Preserva nomes de parâmetros no bytecode para uso por reflexão. -->
+    <maven.compiler.parameters>true</maven.compiler.parameters>
+    <!-- Padroniza a codificação dos arquivos-fonte, inclusive os acentos. -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Versão fixada da implementação SOAP Metro, usada em jaxws-rt. -->
+    <metro.version>4.0.5</metro.version>
+    <!-- Versão do catálogo de dependências (BOM) usado pelo projeto SOAP. -->
+    <spring-boot.version>3.5.16</spring-boot.version>
+  </properties>
+  <!-- Define versões padrão. Cada módulo ainda declara as dependências que usa. -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <!-- BOM: catálogo que alinha versões do driver MySQL, Flyway e JUnit. -->
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <!-- Importamos um documento POM de configuração. -->
+        <type>pom</type>
+        <!-- Incorpora o catálogo do BOM ao dependencyManagement deste projeto. -->
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.xml.ws</groupId>
+        <!-- Implementação Metro que executa serviços e clientes SOAP. -->
+        <artifactId>jaxws-rt</artifactId>
+        <version>${metro.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>jakarta.xml.ws</groupId>
+        <!-- API Jakarta XML Web Services: tipos como Service e Endpoint. -->
+        <artifactId>jakarta.xml.ws-api</artifactId>
+        <version>4.0.2</version>
+      </dependency>
+      <dependency>
+        <groupId>jakarta.jws</groupId>
+        <!-- API de anotações como WebService, WebMethod e WebParam. -->
+        <artifactId>jakarta.jws-api</artifactId>
+        <version>3.0.0</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <!-- Configuração das ferramentas de compilação, testes e empacotamento. -->
+  <build>
+    <!-- Centraliza versões/opções de plugins usados pelos módulos; não agenda tarefas. -->
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <!-- Compila o Java; lê maven.compiler.release e maven.compiler.parameters. -->
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.14.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <!-- Executa os testes unitários na fase test dos módulos com esse ciclo. -->
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.5.3</version>
+          <!-- Opções específicas do plugin Surefire. -->
+          <configuration>
+            <!-- Usa classpath nos testes, conforme a organização sem JPMS deste laboratório. -->
+            <useModulePath>false</useModulePath>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <!-- Empacota a aplicação web em WAR para implantação no Tomcat. -->
+          <artifactId>maven-war-plugin</artifactId>
+          <version>3.4.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <!-- Permite chamar uma classe main com exec:java, por exemplo a tela Swing. -->
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>3.5.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <!-- Declara plugins herdáveis; o Surefire usa a versão/opções definidas acima. -->
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <!-- Executa os testes unitários na fase test dos módulos com esse ciclo. -->
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+</project>
