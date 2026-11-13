@@ -13,6 +13,7 @@
   <!-- Fica vazio agora. Adicionaremos dominio e os demais módulos nas respectivas aulas. -->
   <modules>
 
+  <module>dominio</module>
   </modules>
   <!-- Valores reutilizáveis. A escrita ${nome} consulta uma propriedade. -->
   <properties>
